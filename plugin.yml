@@ -1,0 +1,24 @@
+main: ml.dnk.humantower.main
+name: HumanTower
+version: 1.0
+author: Danikileitor
+description: Random recipes for the campfire!
+api-version: 1.14
+load: POSTWORLD
+prefix: HT
+commands:
+    ht1:
+     description: Gives you the sword! (You will need the ht.1 permission or be OP)
+     aliases: ht1
+     usage: /ht1
+     permission: ht.1
+     permission-message: You don't have the ht.1 permission.
+permissions:
+    ht.1:
+     description: Access to the /ht1 command.
+     default: op
+    ht.*:
+     description: Access to all commands.
+     default: op
+     children:
+      ht.1: true
