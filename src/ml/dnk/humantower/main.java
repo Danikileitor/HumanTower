@@ -29,7 +29,7 @@ public class main extends JavaPlugin implements Listener{
 		lores.add("Golpea y apila a tus enemigos");
 		htswordmeta.setLore(lores);
 		htswordmeta.addEnchant(Enchantment.DURABILITY, Enchantment.DURABILITY.getMaxLevel(), true);
-		htswordmeta.setDisplayName("§1§OLa Apiladora");
+		htswordmeta.setDisplayName("Â§1Â§OLa Apiladora");
 		htsword.setItemMeta(htswordmeta);
 
 		return htsword;
@@ -58,10 +58,16 @@ public class main extends JavaPlugin implements Listener{
 				getServer().broadcastMessage(e.getDamager().getName()+" > "+e.getEntity().getName());
 //Si te molesta el ruido				e.getEntity().setSilent(true);
 					if(p.getPassengers().isEmpty()){p.addPassenger(p.getWorld().spawnEntity(p.getLocation(), EntityType.ARROW));}
-					if(p.getPassengers().get(0).getPassengers().isEmpty()){p.getPassengers().get(0).addPassenger(e.getEntity());}
-					else {p.getPassengers().get(0).getPassengers().get(0).addPassenger(e.getEntity());}
+/*
+*	if(p.getPassengers().get(0).getPassengers().isEmpty()){p.getPassengers().get(0).addPassenger(e.getEntity());}
+*					else {p.getPassengers().get(0).getPassengers().get(0).addPassenger(e.getEntity());}
+*/
+				for(p1 = (Entity) e.getDamager();!p1.getPassengers().get(0).isEmpty()){
+				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
+				p1 = p1.getPassengers().get(0);
+				}p1.addPassenger(e.getEntity);
 	        	}
-			else {e.setCancelled(false);}	
+			else {e.setCancelled(false);}		
 			}
 	}
 	
