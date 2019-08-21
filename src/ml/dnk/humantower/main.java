@@ -5,14 +5,18 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +33,7 @@ public class main extends JavaPlugin implements Listener{
 		lores.add("Golpea y apila a tus enemigos");
 		htswordmeta.setLore(lores);
 		htswordmeta.addEnchant(Enchantment.DURABILITY, Enchantment.DURABILITY.getMaxLevel(), true);
-		htswordmeta.setDisplayName("Â§1Â§OLa Apiladora");
+		htswordmeta.setDisplayName("§1§OLa Apiladora");
 		htsword.setItemMeta(htswordmeta);
 
 		return htsword;
@@ -55,20 +59,37 @@ public class main extends JavaPlugin implements Listener{
 			ItemStack mano = p.getInventory().getItemInMainHand();
 			if (mismoItem(mano, htsword)){
 				e.setCancelled(true);
-				getServer().broadcastMessage(e.getDamager().getName()+" > "+e.getEntity().getName());
 //Si te molesta el ruido				e.getEntity().setSilent(true);
-					if(p.getPassengers().isEmpty()){p.addPassenger(p.getWorld().spawnEntity(p.getLocation(), EntityType.ARROW));}
-/*
-*	if(p.getPassengers().get(0).getPassengers().isEmpty()){p.getPassengers().get(0).addPassenger(e.getEntity());}
-*					else {p.getPassengers().get(0).getPassengers().get(0).addPassenger(e.getEntity());}
-*/
-				for(p1 = (Entity) e.getDamager();!p1.getPassengers().get(0).isEmpty()){
-				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
-				p1 = p1.getPassengers().get(0);
-				}p1.addPassenger(e.getEntity);
+					if(p.getPassengers().isEmpty()){
+						p.addPassenger(p.getWorld().spawnEntity(p.getLocation(), EntityType.SPECTRAL_ARROW));
+					}
+					Entity p1;
+					int i = 0;
+					for(p1 = (Entity) e.getDamager();!p1.getPassengers().get(0).isEmpty();){
+						p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
+						p1 = p1.getPassengers().get(0); i++;
+						}p1.getPassengers().get(0).addPassenger(e.getEntity()); i++;
+					getServer().broadcastMessage(e.getDamager().getName()+" > "+e.getEntity().getName()+" ("+i+")");
 	        	}
-			else {e.setCancelled(false);}		
+			else {e.setCancelled(false);}	
 			}
+	}
+	
+	@EventHandler
+	public void onClick(PlayerInteractEvent e){
+		Player p = (Player) e.getPlayer();
+		Action action = e.getAction();
+		if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK){
+			if(!p.isEmpty()){
+				if(!p.getPassengers().get(0).isEmpty()){
+					if(!p.getPassengers().get(0).getPassengers().get(0).isEmpty()){
+						Entity pafuera = p.getPassengers().get(0).getPassengers().get(0).getPassengers().get(0);
+						p.getPassengers().get(0).eject();
+						p.getPassengers().get(0).addPassenger(pafuera);
+					}else{p.getPassengers().get(0).eject();}
+				}else{p.eject();}
+			}
+		}
 	}
 	
     @Override
@@ -90,7 +111,7 @@ public class main extends JavaPlugin implements Listener{
         if (command.getName().equalsIgnoreCase("ht1") && sender.hasPermission("ht.1")) {
             sender.sendMessage("Espada pa ti!");
             p.getInventory().addItem(htsword);
-            p.addPassenger(p.getWorld().spawnEntity(p.getLocation(), EntityType.ARROW));
+            p.addPassenger(p.getWorld().spawnEntity(p.getLocation(), EntityType.SPECTRAL_ARROW));
             return true;
         }
         return false;
