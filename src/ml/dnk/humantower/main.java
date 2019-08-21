@@ -19,9 +19,23 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class main extends JavaPlugin implements Listener{
+//	Updater
+		private PluginDescriptionFile desc = getDescription();
+		private static final int ID = 336785;
+		private static Updater updater;
+		public static boolean update = false;
+
+		private boolean checkUpdate() {
+			updater = new Updater(this, ID, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+			update = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE;
+
+			return update;
+		}
+
 	Logger log = Bukkit.getLogger();
 	ItemStack htsword = getEspada();
 	ItemStack aire = new ItemStack(Material.AIR);
@@ -96,6 +110,12 @@ public class main extends JavaPlugin implements Listener{
     public void onEnable() {
     	log.info("[HT] Enjoy lifting humans!");
     	
+		if (checkUpdate()) {
+			getServer().getConsoleSender()
+			.sendMessage("§b[HT] An update is available, use /htupdate to update to the lastest version (from v"
+					+ desc.getVersion() + " to v" + updater.getRemoteVersion() + ")");
+		}
+    	
     	getServer().getPluginManager().registerEvents(this, this);
     }
     @Override
@@ -108,10 +128,24 @@ public class main extends JavaPlugin implements Listener{
                              String label,
                              String[] args) {
     	Player p = (Player) sender;
-        if (command.getName().equalsIgnoreCase("ht1") && sender.hasPermission("ht.1")) {
+        if (command.getName().equalsIgnoreCase("htsword") && sender.hasPermission("ht.sword")) {
             sender.sendMessage("Espada pa ti!");
             p.getInventory().addItem(htsword);
             p.addPassenger(p.getWorld().spawnEntity(p.getLocation(), EntityType.SPECTRAL_ARROW));
+            return true;
+        }
+        if (command.getName().equalsIgnoreCase("htupdate")) {
+        	if (sender.hasPermission("ht.update")) {
+        		if (checkUpdate()) {
+        			sender.sendMessage("§b[HT] Updating HumanTower...");
+					updater = new Updater(this, ID, this.getFile(), Updater.UpdateType.DEFAULT, true);
+					updater.getResult();
+					sender.sendMessage("§b[HT] Use §e/reload §bto apply changes.");
+        		} else {
+					sender.sendMessage("§b[HT] This plugin is already up to date.");
+				}
+        		
+        	} else {sender.sendMessage("§4You don't have permission to use this command.");}
             return true;
         }
         return false;

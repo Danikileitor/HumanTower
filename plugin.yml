@@ -2,23 +2,33 @@ main: ml.dnk.humantower.main
 name: HumanTower
 version: 1.0
 author: Danikileitor
-description: Random recipes for the campfire!
+description: Lift everyone in your sight and make a giant tower!
 api-version: 1.14
 load: POSTWORLD
 prefix: HT
 commands:
-    ht1:
-     description: Gives you the sword! (You will need the ht.1 permission or be OP)
-     aliases: ht1
-     usage: /ht1
-     permission: ht.1
-     permission-message: You don't have the ht.1 permission.
+    htsword:
+     description: Gives you THE sword! (You will need the ht.sword permission or be OP)
+     aliases: htsword
+     usage: /htsword
+     permission: ht.sword
+     permission-message: You don't have the ht.sword permission.
+    htupdate:
+     description: Update this plugin if there is an update available.
+     aliases: htupdate
+     usage: /htupdate
+     permission: ht.update
+     permission-message: You don't have the ht.update permission.
 permissions:
-    ht.1:
-     description: Access to the /ht1 command.
+    ht.sword:
+     description: Access to the /htsword command.
+     default: op
+    ht.update:
+     description: Access to the /htupdate command.
      default: op
     ht.*:
      description: Access to all commands.
      default: op
      children:
-      ht.1: true
+      ht.sword: true
+      ht.update: true
