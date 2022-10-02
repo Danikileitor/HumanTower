@@ -27,7 +27,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.13.1</version>
-			<scope>test</scope>
+			<scope>provided</scope>
 		</dependency>
 		<!--This adds the Bukkit API artifact to the build -->
 		<dependency>
