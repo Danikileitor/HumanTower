@@ -1,4 +1,4 @@
-package ml.dnk.humantower;
+package dnk.humantower;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -22,7 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class main extends JavaPlugin implements Listener{
+public class Main extends JavaPlugin implements Listener{
 //	Updater
 		private PluginDescriptionFile desc = getDescription();
 		private static final int ID = 336785;

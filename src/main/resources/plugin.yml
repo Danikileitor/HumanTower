@@ -1,9 +1,9 @@
-main: ml.dnk.humantower.main
+main: dnk.humantower.Main
 name: HumanTower
 version: 1.0
 author: Danikileitor
 description: Lift everyone in your sight and make a giant tower!
-api-version: 1.14
+api-version: 1.19
 load: POSTWORLD
 prefix: HT
 commands:
