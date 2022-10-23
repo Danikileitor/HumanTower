@@ -47,7 +47,7 @@ public class Main extends JavaPlugin implements Listener{
 		lores.add("Golpea y apila a tus enemigos");
 		htswordmeta.setLore(lores);
 		htswordmeta.addEnchant(Enchantment.DURABILITY, Enchantment.DURABILITY.getMaxLevel(), true);
-		htswordmeta.setDisplayName("§1§OLa Apiladora");
+		htswordmeta.setDisplayName("Â§1Â§OLa Apiladora");
 		htsword.setItemMeta(htswordmeta);
 
 		return htsword;
@@ -112,7 +112,7 @@ public class Main extends JavaPlugin implements Listener{
     	
 		if (checkUpdate()) {
 			getServer().getConsoleSender()
-			.sendMessage("§b[HT] An update is available, use /htupdate to update to the lastest version (from v"
+			.sendMessage("Â§b[HT] An update is available, use /htupdate to update to the lastest version (from v"
 					+ desc.getVersion() + " to v" + updater.getRemoteVersion() + ")");
 		}
     	
@@ -137,15 +137,15 @@ public class Main extends JavaPlugin implements Listener{
         if (command.getName().equalsIgnoreCase("htupdate")) {
         	if (sender.hasPermission("ht.update")) {
         		if (checkUpdate()) {
-        			sender.sendMessage("§b[HT] Updating HumanTower...");
+        			sender.sendMessage("Â§b[HT] Updating HumanTower...");
 					updater = new Updater(this, ID, this.getFile(), Updater.UpdateType.DEFAULT, true);
 					updater.getResult();
-					sender.sendMessage("§b[HT] Use §e/reload §bto apply changes.");
+					sender.sendMessage("Â§b[HT] Use Â§e/reload Â§bto apply changes.");
         		} else {
-					sender.sendMessage("§b[HT] This plugin is already up to date.");
+					sender.sendMessage("Â§b[HT] This plugin is already up to date.");
 				}
         		
-        	} else {sender.sendMessage("§4You don't have permission to use this command.");}
+        	} else {sender.sendMessage("Â§4You don't have permission to use this command.");}
             return true;
         }
         return false;
